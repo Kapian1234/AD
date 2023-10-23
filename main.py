@@ -7,7 +7,7 @@ import train
 
 
 class Params:
-    epochs = 20
+    epochs = 1
     start_epoch = 0
 
 args = Params()
@@ -69,6 +69,8 @@ class Trainer():
             # 保存
             state = {'epoch':epoch, 'loss':loss, 'state_dict':self.model.state_dict(), 'optimizer':self.optimizer.state_dict()}
             s_path = save_path + 'f' + str(i) + '/' + str(epoch)+'_'+ str(val_acc)+'_'+ str(val_sen)+'_'+ str(val_spe)+'.pth'
+            if not os.path.exists(s_path):
+                os.makedirs(s_path)
             print(s_path)
             # torch.save(state,'./para/'+ type + '/' + 'fold' + str(i) +'-'+str(prec1)+'.pth')
             torch.save(state, s_path)
@@ -79,7 +81,7 @@ if __name__ == '__main__':
 
     csv_path = './folds'
     data_path = './cn_pre/pre'
-    save_path = './save'
+    save_path = './save/'
 
     # 训练并保存模型
     for i in range(5):
@@ -93,7 +95,7 @@ if __name__ == '__main__':
     for j in range(5):
         l_prec = [] # 每个模型精度
         l_best = []
-        path = './mri para/' + args.state + '/f'+str(j+1)+'/'
+        path = './save' + '/f'+str(j+1)+'/'
         train_df_path = csv_path + '/' + 'fold' + str(j + 1) + '/'
         path_list = os.listdir(path)
 
