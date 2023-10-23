@@ -48,8 +48,9 @@ class newADdataset(Dataset):
         img = nib.load(img_path).get_fdata()
 
         # 图像尺寸压缩
-        resize_transform = transforms.Resize((80, 100, 76))
-        img = resize_transform(img)
+        # resize_transform = transforms.Resize((80, 100, 76))
+        # img = resize_transform(img)
+        img = img[40:120, 30:130, 10:86]
         img = np.squeeze(img)
 
         img = img*1.0
