@@ -7,7 +7,7 @@ import train
 
 
 class Params:
-    epochs = 1
+    epochs = 2
     start_epoch = 0
 
 args = Params()
@@ -69,8 +69,8 @@ class Trainer():
             # 保存
             state = {'epoch':epoch, 'loss':loss, 'state_dict':self.model.state_dict(), 'optimizer':self.optimizer.state_dict()}
             s_path = save_path + 'f' + str(i) + '/' + str(epoch)+'_'+ str(val_acc)+'_'+ str(val_sen)+'_'+ str(val_spe)+'.pth'
-            if not os.path.exists(s_path):
-                os.makedirs(s_path)
+            if not os.path.exists(save_path + 'f' + str(i) + '/'):
+                os.makedirs(save_path + 'f' + str(i) + '/')
             print(s_path)
             # torch.save(state,'./para/'+ type + '/' + 'fold' + str(i) +'-'+str(prec1)+'.pth')
             torch.save(state, s_path)
@@ -109,6 +109,7 @@ if __name__ == '__main__':
             state = torch.load(ckpt_path, map_location=lambda storage, loc: storage.cuda(0))
             model.load_state_dict(state['state_dict'], strict=True)
             model_train = Trainer(model)
+            # 测试
             print('test start\n')
             prec = model_train.test()
             l_prec.append(prec)
