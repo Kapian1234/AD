@@ -7,7 +7,7 @@ import train
 
 
 class Params:
-    epochs = 2
+    epochs = 20
     start_epoch = 0
 
 args = Params()
@@ -21,7 +21,7 @@ class Trainer():
                          'val': train_df_path + 'test.csv',
                          'test': train_df_path + 'test.csv'}
         # batch大小
-        self.batch_size = {'train': 4, 'val': 3, 'test': 3}
+        self.batch_size = {'train': 1, 'val': 1, 'test': 1}
         # 训练轮数
         self.epochs = args.epochs
 
@@ -84,12 +84,12 @@ if __name__ == '__main__':
     save_path = './save/'
 
     # 训练并保存模型
+    model = ADmodel.Model().cuda()
     for i in range(5):
         train_df_path = csv_path + '/' + 'fold' + str(i + 1) + '/'
-        model = ADmodel.Model().cuda()
         model_train = Trainer(model)
         model_train.start(i + 1)
-        del model
+    del model
 
 
     for j in range(5):
