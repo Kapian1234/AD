@@ -116,7 +116,7 @@ if __name__ == '__main__':
             del model
         print(l_prec)
         print(l_best)
-        with open('mripara0823.txt','a') as f:
+        with open('model_log.txt','a') as f:
             f.write(str(l_prec))
             f.write('\n')
             f.write(str(l_best))
