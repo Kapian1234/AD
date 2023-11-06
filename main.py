@@ -91,35 +91,43 @@ if __name__ == '__main__':
         model_train.start(i + 1)
     del model
 
+best_f1score = 0
+best_f1score_location = '/'
 
-    for j in range(5):
-        l_prec = [] # 每个模型精度
-        l_best = []
-        path = './save' + '/f'+str(j+1)+'/'
-        train_df_path = csv_path + '/' + 'fold' + str(j + 1) + '/'
-        path_list = os.listdir(path)
+for j in range(5):
+    l_prec = [] # 每个模型精度
+    l_best = []
+    path = './save' + '/f'+str(j+1)+'/'
+    train_df_path = csv_path + '/' + 'fold' + str(j + 1) + '/'
+    path_list = os.listdir(path)
 
-        for i in range(len(path_list)):
-            # 检查点?
-            ckpt_path = path + path_list[i]
-            l_best.append(ckpt_path)
-            print(ckpt_path)
-            # 加载保存好的模型
-            model = ADmodel.Model().cuda()
-            state = torch.load(ckpt_path, map_location=lambda storage, loc: storage.cuda(0))
-            model.load_state_dict(state['state_dict'], strict=True)
-            model_train = Trainer(model)
-            # 测试
-            print('test start\n')
-            prec = model_train.test()
-            l_prec.append(prec)
-            del model
-        print(l_prec)
-        print(l_best)
-        with open('model_log.txt','a') as f:
-            f.write(str(l_prec))
-            f.write('\n')
-            f.write(str(l_best))
-            f.write('\n')
+    for i in range(len(path_list)):
+        # 检查点?
+        ckpt_path = path + path_list[i]
+        l_best.append(ckpt_path)
+        print(ckpt_path)
+        # 加载保存好的模型
+        model = ADmodel.Model().cuda()
+        state = torch.load(ckpt_path, map_location=lambda storage, loc: storage.cuda(0))
+        model.load_state_dict(state['state_dict'], strict=True)
+        model_train = Trainer(model)
+        # 测试
+        print('test start\n')
+        prec = model_train.test()
+        l_prec.append(prec)
+        if prec[3] > best_f1score:
+            best_f1score = prec[3]
+            best_f1score_location = ckpt_path
+        del model
+    print(l_prec)
+    print(l_best)
+    with open('model_log.txt','a') as f:
+        f.write(str(l_prec))
+        f.write('\n')
+        f.write(str(l_best))
+        f.write('\n')
+
+print(f"best F1-Score: {best_f1score}")
+print(f"location: {best_f1score_location}")
 
 

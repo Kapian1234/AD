@@ -37,3 +37,6 @@ print(pred)
 _,pred = torch.max(output, 1)
 print(pred)
 
+result = {0: 'AD', 1: 'MCI', 2: 'CN'}
+print(f'预测结果为: {result[pred.item()]}')
+

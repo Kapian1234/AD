@@ -1,5 +1,5 @@
 # 0 ad
-# 1 mri
+# 1 mci
 # 2 cn
 import pandas as pd
 from torch.utils.data.dataset import Dataset

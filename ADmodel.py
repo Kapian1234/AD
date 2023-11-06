@@ -72,35 +72,29 @@ class Model(nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
-        print(x.shape)
+        # print(x.shape)
 
         x = self.conv2(x)
         x = self.MaxPool(x)
-        print(x.shape)
 
         x = self.conv3(x)
         x = self.ca2(x)
         x = self.MaxPool(x)
-        print(x.shape)
 
         x = self.conv4(x)
         x = self.ca3(x)
         x = self.MaxPool(x)
-        print(x.shape)
 
         x = self.conv5(x)
         x = self.ca4(x)
         x = self.MaxPool(x)
-        print(x.shape)
 
         x = self.conv6(x)
-        print(x.shape)
 
         x = self.average(x)  # GAP
-        print(x.shape)
 
         x = x_linear = x.view(x.shape[0], -1)
-        print(x.shape)
+        # print(x.shape)
 
         x = self.dropout(x)
 

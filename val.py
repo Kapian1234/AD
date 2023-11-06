@@ -70,8 +70,14 @@ def validate(val_loader, model, criterion):
     print('正确数目： ',true_num,'  总数目： ',total_num)
     print('sen_num: ',sen_num,'  true_sen_num: ', true_sen_num, '  spe_num: ', spe_num,'  true_spe_num: ',true_spe_num)
     acc = true_num/total_num
-    sen = true_sen_num/sen_num
+    sen = true_sen_num/sen_num  # recall
     spe = true_spe_num/spe_num
-    print('验证准确率\n',acc, '\n敏感性\n', sen, '\n特异性\n', spe)
 
-    return [acc,sen,spe]
+    precison = true_sen_num / (true_sen_num + (sen_num - true_sen_num))
+    recall = sen
+
+    f1_score = 2*precison*recall / (precison+recall)
+
+    print('验证准确率\n',acc, '\n敏感性\n', sen, '\n特异性\n', spe, '\nF1-Score\n', f1_score)
+
+    return [acc, sen, spe, f1_score]
